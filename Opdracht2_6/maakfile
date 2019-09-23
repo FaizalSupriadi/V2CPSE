@@ -1,0 +1,19 @@
+.PHONY: clean
+
+generator.exe: generator.o note_player_cout.o rtttl_player.o
+	g++ -std=c++17 generator.o note_player_cout.o rtttl_player.o -o generator.exe
+
+rtttl_player.o : rtttl_player.cpp rtttl_player.hpp note_player.hpp note.hpp
+	g++ -std=c++17 -c rtttl_player.cpp -o rtttl_player.o
+
+generator.o : generator.cpp note_player_cout.hpp rtttl_player.hpp note_player.hpp note.hpp
+	g++ -std=c++17 -c generator.cpp -o generator.o
+
+note_player_cout.o : note_player_cout.cpp note_player_cout.hpp
+	g++ -std=c++17 -c note_player_cout.cpp -o note_player_cout.o
+
+clean:
+	rm -f *.0*.exe *.elf
+
+run:
+	make -f maakfile && ./generator.exe
