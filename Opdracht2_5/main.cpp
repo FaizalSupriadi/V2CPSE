@@ -1,5 +1,5 @@
-//#include "hwlib.hpp"
-//#include "note_player_gpio.hpp"
+#include "hwlib.hpp"
+#include "note_player_gpio.hpp"
 #include "fur_elise.hpp"
 #include "rtttl_player.hpp"
 #include "note_player_cout.hpp"
@@ -15,14 +15,14 @@ const char one[]          = "NumberOne:d=16,o=5,b=168:4f.,8c6,16b5,16c6,16b5,16c
 
 int main( void ){	
    
-   //namespace target = hwlib::target;   
-   //auto lsp = target::pin_out( target::pins::d7 );
-   auto p = note_player_cout();
-   hwlib::wait_ms( 500 );
+   namespace target = hwlib::target;   
+   auto lsp = target::pin_out( target::pins::d7 );
+   auto p = note_player_gpio(lsp);
 	
 	ofstream myFile;
-	myFile.open("melody.cpp");
-	myFile << "#include \"melody.hpp\"\n" << 
+	myFile.open("newMelody.hpp");
+	myFile << "#ifndef _NEWMELODY_HPP\n"<< "#define _NEWMELODY_HPP\n"
+		<<"#include \"melody.hpp\"\n" << "class newMelody : public melody {\n"<< "public:\n"
 				 "void play( note_player & p ){\n";
 	myFile.close();
    
@@ -38,7 +38,7 @@ int main( void ){
    if( 1 ){ rtttl_play( p, one );  }
    
    ofstream myfile;
-	myfile.open("melody.cpp", fstream::app);
-	myfile << "}";
+	myfile.open("newMelody.hpp", fstream::app);
+	myfile << "	}\n}:\n#endif";
 	myfile.close();
 }

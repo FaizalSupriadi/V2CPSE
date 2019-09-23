@@ -18,11 +18,11 @@ int main( void ){
    //namespace target = hwlib::target;   
    //auto lsp = target::pin_out( target::pins::d7 );
    auto p = note_player_cout();
-   //hwlib::wait_ms( 500 );
 	
 	ofstream myFile;
-	myFile.open("melody.cpp");
-	myFile << "#include \"melody.hpp\"\n" << 
+	myFile.open("newMelody.hpp");
+	myFile << "#ifndef _NEWMELODY_HPP\n"<< "#define _NEWMELODY_HPP\n"
+		<<"#include \"melody.hpp\"\n" << "class newMelody : public melody {\n"<< "public:\n"
 				 "void play( note_player & p ){\n";
 	myFile.close();
    
@@ -37,8 +37,8 @@ int main( void ){
    if( 0 ){ rtttl_play( p, rickroll );  }
    if( 1 ){ rtttl_play( p, one );  }
    
-   ofstream myfile;
-	myfile.open("melody.cpp", fstream::app);
-	myfile << "}";
+    ofstream myfile;
+	myfile.open("newMelody.hpp", fstream::app);
+	myfile << "	}\n};\n#endif";
 	myfile.close();
 }
