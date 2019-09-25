@@ -1,5 +1,4 @@
 #include "hwlib.hpp"
-//#include "note_player_gpio.hpp"
 #include "fur_elise.hpp"
 #include "rtttl_player.hpp"
 #include "note_player_cout.hpp"
@@ -14,18 +13,16 @@ const char rickroll[]     = "Never gonna give you up:d=4,o=5,b=120:16c,16d,16f,1
 const char one[]          = "NumberOne:d=16,o=5,b=168:4f.,8c6,16b5,16c6,16b5,16c6,8b5,8c6,4g#5,4f.,8f,8g#5,8c6,4c#6,4g#5,4c#6,4d#6,8c6,8c#6,8c6,8c#6,2c6";
 
 int main( void ){	
-   
-   //namespace target = hwlib::target;   
-   //auto lsp = target::pin_out( target::pins::d7 );
+
    auto p = note_player_cout();
    hwlib::wait_ms( 500 );
 	
-	ofstream myFile;
-	myFile.open("melody.cpp");
-	myFile << "#include \"melody.hpp\"\n" << 
-				 "void play( note_player & p ){\n";
-	myFile.close();
-   
+   ofstream myFile;
+   myFile.open("newMelody.hpp");
+   myFile << "#ifndef _NEWMELODY_HPP\n"<< "#define _NEWMELODY_HPP\n"
+		<<"#include \"melody.hpp\"\n" << "class newMelody : public melody {\n"<< "public:\n" <<"void play( note_player & p ){\n";
+   myFile.close();
+	
    if( 0 ){
       auto fe = fur_elise();
       fe.play( p );
@@ -38,7 +35,7 @@ int main( void ){
    if( 1 ){ rtttl_play( p, one );  }
    
    ofstream myfile;
-	myfile.open("melody.cpp", fstream::app);
-	myfile << "}";
-	myfile.close();
+   myfile.open("newMelody.hpp", fstream::app);
+   myfile << "	}\n};\n#endif";
+   myfile.close();
 }

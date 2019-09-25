@@ -13,7 +13,7 @@ note_player_cout.o : note_player_cout.cpp note_player_cout.hpp
 	g++ -c note_player_cout.cpp -o note_player_cout.o
 
 clean:
-	rm -f *.0*.exe *.elf
+	rm -f *.o *.exe *.elf
 
 run:
 	make -f maakfile && ./generator.exe
