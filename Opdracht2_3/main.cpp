@@ -1,5 +1,4 @@
 #include "hwlib.hpp"
-//#include "note_player_gpio.hpp"
 #include "fur_elise.hpp"
 #include "rtttl_player.hpp"
 #include "note_player_cout.hpp"
@@ -12,11 +11,7 @@ const char one[]          = "NumberOne:d=16,o=5,b=168:4f.,8c6,16b5,16c6,16b5,16c
 
 int main( void ){	
    
-   //namespace target = hwlib::target;   
-   //auto lsp = target::pin_out( target::pins::d7 );
    auto p = note_player_cout();
-   hwlib::wait_ms( 500 );
-   
   
    if( 0 ){
       auto fe = fur_elise();
