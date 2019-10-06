@@ -1,0 +1,35 @@
+#############################################################################
+#
+# Project Makefile
+#
+# (c) Wouter van Ooijen (www.voti.nl) 2016
+#
+# This file is in the public domain.
+# 
+#############################################################################
+
+# source files in this project (main.cpp is automatically assumed)
+SOURCES := assemblyDecoder.asm compressed.asm 
+
+# header files in this project
+HEADERS := match.hpp compressor.hpp decompressor.hpp
+
+# other places to look for files for this project
+SEARCH  := 
+
+# set REATIVE to the next higher directory 
+# and defer to the Makefile.due there
+RELATIVE := $(RELATIVE)../
+include $(RELATIVE)Makefile.due
+
+cleanGen:
+	make clean && rm -f compressed.asm generator.exe generator.o
+
+compressed.asm:
+	make generator.exe && ./generator.exe
+
+generator.exe: generator.o 
+	g++ -std=c++17 generator.o -o generator.exe
+	
+generator.o : generator.cpp 
+	g++ -std=c++17 -c generator.cpp -o generator.o
