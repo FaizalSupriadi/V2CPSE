@@ -10,8 +10,8 @@ int main( void ){
    auto scl = target::pin_oc( target::pins::scl );
    auto sda = target::pin_oc( target::pins::sda );
    auto i2c_bus = hwlib::i2c_bus_bit_banged_scl_sda( scl,sda );
-  			
-   auto sw = target::pin_in( hwlib::target::pins::d5 );
+   auto tilt = target::pin_in( target::pins::d6 );
+   auto sw = target::pin_in( target::pins::d5 );
 
    auto display = hwlib::glcd_oled{ i2c_bus, 0x3c };
 
@@ -25,8 +25,9 @@ int main( void ){
    int second = 50;
    constexpr auto sinus = lookup< 360, int >( scaled_sine_from_degrees );
    constexpr auto cosinus = lookup< 360, int >( scaled_cosine_from_degrees );
+   tilt_sensor tiltSense( tilt );
 
-   clock Clock = clock( display, sw, location, radius, sizeMarker, hour, minute, second, sinus, cosinus );
+   clock Clock = clock( display, tiltSense, sw, location, radius, sizeMarker, hour, minute, second, sinus, cosinus );
 
    unsigned int t = hwlib::now_us();
 
@@ -40,7 +41,6 @@ int main( void ){
       if(sw.read() == 0){
       	 Clock.changeTime();
       }
-
    }
 
 }

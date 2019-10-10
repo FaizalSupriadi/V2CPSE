@@ -1,7 +1,8 @@
 #include "clock.hpp"
 
-clock::clock( hwlib::glcd_oled & oled, hwlib::pin_in & sw, hwlib::xy location, int & radius, int & sizeMarkers, int & hour, int & minute, int & second, lookup<360, int> sinus, lookup<360, int> cosinus ):
+clock::clock( hwlib::glcd_oled & oled, tilt_sensor & tilt, hwlib::pin_in & sw, hwlib::xy location, int & radius, int & sizeMarkers, int & hour, int & minute, int & second, lookup<360, int> sinus, lookup<360, int> cosinus ):
    oled( oled ),
+   tilt( tilt ),
    sw( sw ),
    location( location ),
    radius( radius ),
@@ -77,10 +78,71 @@ void clock::updateTime(){
 }
 
 void clock::changeTime(){
-	
-	if(sw.read() == 0){	
-		hour=0;
-		minute=0;
-		second=0;
-	};
+	int counter=0;
+
+	for(;;){           												
+   	  //hwlib::wait_ms(100);														
+		
+		drawClock();
+
+		for(;;){													
+
+			if(sw.read() == 0){											
+				counter++; 
+				break;  	  		    											
+			}
+
+			if( tilt.get() == 1){						
+				if(counter == 1){
+					if(hour == 11){
+						hour = 0;
+					}else{
+						hour++;
+					}
+				}else if(counter == 2){
+					if(minute == 59){
+						minute = 0;
+					}else{
+						minute++;
+					}
+				}else{
+					if(second == 59){
+						second = 0;
+					}else{
+						second++;
+					}
+				}											
+				break;												
+			}else if(tilt.get() == 0){			
+				if(counter == 1){
+					if(hour == 0){
+						hour = 11;
+					}else{
+						hour--;
+					}
+				}else if(counter == 2){
+					if(minute == 0){
+						minute = 59;
+					}else{
+						minute--;
+					}
+				}else{
+					if(second == 0){
+						second = 59;
+					}else{
+						second--;
+					}
+				}												
+
+				break;													
+			}else if(tilt.get() == 0){				
+				break;													
+			}					
+		}
+		
+		if( counter > 2 ){
+			break;
+		}
+	}
+
 }

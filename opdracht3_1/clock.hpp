@@ -3,6 +3,7 @@
 #include "hwlib.hpp"
 #include "sin.hpp"
 #include <array>
+#include "tilt.hpp"
 
 template< int N, typename T >
 class lookup {
@@ -27,6 +28,7 @@ class clock{
 private:
 
    hwlib::glcd_oled & oled;                  //the oled 
+   tilt_sensor & tilt;
    hwlib::pin_in & sw;
    hwlib::xy location;                       //the middle point of the clock
    int radius;                               //the radius of the hole clock
@@ -41,7 +43,7 @@ private:
 public:
 
    //clock();
-   clock( hwlib::glcd_oled & oled, hwlib::pin_in & sw, hwlib::xy location, int & radius, int & sizeMarkers, int & hour, int & minute, int & second, lookup<360, int> sinus, lookup<360, int> cosinus );
+   clock( hwlib::glcd_oled & oled, tilt_sensor & tilt,hwlib::pin_in & sw, hwlib::xy location, int & radius, int & sizeMarkers, int & hour, int & minute, int & second, lookup<360, int> sinus, lookup<360, int> cosinus );
 
    void hourMarkers( hwlib::xy location, int radius, int sizeMarkers );
    void drawHourHand( hwlib::xy location );

@@ -12,7 +12,7 @@
 SOURCES := clock.cpp
 
 # header files in this project
-HEADERS := sin.hpp clock.hpp
+HEADERS := sin.hpp clock.hpp tilt.hpp
 
 # other places to look for files for this project
 SEARCH  := 
